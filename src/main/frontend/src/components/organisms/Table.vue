@@ -1,20 +1,41 @@
 <template>
   <div class="q-pa-md">
-    <q-table 
-      title="書籍一覧" 
-      :rows="state.books" 
-      :columns="columns" 
-      row-key="name"
-    ></q-table>
+    <q-markup-table>
+      <thead class="bg-teal">
+        <th class="text-left">タイトル</th>
+        <th class="text-left">著者</th>
+        <th class="text-left">詳細</th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody v-for="book in state.books" :key="book.id">
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.detail }}</td>
+          <td><MyButton label="変更" color="secondary" @click="editBook(book.id)" /></td>
+          <td><MyButton label="削除" color="deep-orange" @click="deleteBook(book.id)" /></td>
+        </tr>
+      </tbody>
+    </q-markup-table>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useQuasar } from 'quasar'
 import { onMounted, reactive } from "vue";
 import BookApiService from "../../service/BookApiService";
+import MyButton from "../atoms/Button.vue"
+
+const $q = useQuasar()
 
 const state = reactive({
-  books: []
+  books: [{
+    id: "",
+    title: "",
+    author: "",
+    detail: ""
+  }]
 })
 
 onMounted(() => {
@@ -23,10 +44,25 @@ onMounted(() => {
   })
 })
 
-const columns = [
-  { name: 'title', required: true, label: 'タイトル', align: 'left', field: 'title', sortable: true },
-  { name: 'author', align: 'left', label: '著者', field: 'author', sortable: true },
-  { name: 'detail', align: 'left', label: '詳細', field: 'detail', sortable: true }
-]
+const editBook = (id: string) => {
+  console.log("eidt")
+}
+
+const deleteBook = (id: string) => {
+  BookApiService.delete(id)
+  .then(isDeleted => {
+    if (isDeleted) {
+      $q.notify({
+        type: 'positive',
+        message: '削除しました'
+      })
+    } else {
+      $q.notify({
+        type: 'negative',
+        message: 'エラーが発生しました'
+      })
+    }
+  })
+}
 
 </script>
