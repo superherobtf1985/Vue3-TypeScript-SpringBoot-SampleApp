@@ -24,8 +24,8 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { onMounted, reactive } from "vue";
-import BookApiService from "../../service/BookApiService";
 import MyButton from "../atoms/Button.vue"
+import BookApiService from "@/service/BookApiService";
 
 const $q = useQuasar()
 

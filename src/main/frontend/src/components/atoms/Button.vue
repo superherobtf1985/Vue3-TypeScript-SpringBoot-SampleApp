@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-btn :color=color :textColor=textColor :label=label @click="onClick" />
+    <q-btn :color=color
+           :textColor=textColor
+           :label=label 
+           :type=type 
+           @click="onClick"/>
   </div>
 </template>
 
@@ -21,6 +25,9 @@ const props = defineProps({
     default: "primary",
   },
   textColor: {
+    type: String
+  },
+  type: {
     type: String
   }
 })
