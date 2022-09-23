@@ -11,9 +11,7 @@
       <q-input standout="bg-teal text-white" v-model="detail" label="detail *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" />
-      </div>
+      <div><MyButton type="submit" label="変更" /></div>
     </q-form>
 
   </div>
@@ -22,35 +20,19 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
-import BookApiService from "../../service/BookApiService";
-
-const $q = useQuasar()
+import MyButton from "@/components/atoms/Button.vue"
 
 const title = ref(null)
 const author = ref(null)
 const detail = ref(null)
-// const accept = ref(false)
 
+const emit = defineEmits(['submit'])
 const onSubmit = () => {
-  const book = {
+  emit("submit", {
     title: title.value,
     author: author.value,
     detail: detail.value
-  }
-
-  BookApiService.create(book).then(res => {
-    if (res.data) {
-      $q.notify({
-        type: 'positive',
-        message: '登録しました'
-      })
-    }
-  }).catch(err => {
-    $q.notify({
-      type: 'negative',
-      message: 'エラーが発生しました'
-    })
-  })
+  });
 }
 
 </script>
