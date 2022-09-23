@@ -2,13 +2,13 @@
   <div class="q-pa-md" style="max-width: 400px">
 
     <q-form @submit="onSubmit" class="q-gutter-md">
-      <q-input filled v-model="title" label="title *" lazy-rules
+      <q-input standout="bg-teal text-white" v-model="title" label="title *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
-      <q-input filled v-model="author" label="author *" lazy-rules
+      <q-input standout="bg-teal text-white" v-model="author" label="author *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
-      <q-input filled v-model="detail" label="detail *" lazy-rules
+      <q-input standout="bg-teal text-white" v-model="detail" label="detail *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
       <div>
@@ -41,37 +41,16 @@ const onSubmit = () => {
   BookApiService.create(book).then(res => {
     if (res.data) {
       $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Submitted'
+        type: 'positive',
+        message: '登録しました'
       })
     }
   }).catch(err => {
     $q.notify({
-      color: 'red-5',
-      textColor: 'white',
-      icon: 'warning',
+      type: 'negative',
       message: 'エラーが発生しました'
     })
   })
-
-  // if (!accept.value) {
-  //   $q.notify({
-  //     color: 'red-5',
-  //     textColor: 'white',
-  //     icon: 'warning',
-  //     message: 'You need to accept the license and terms first'
-  //   })
-  // } else {
-  //   $q.notify({
-  //     color: 'green-4',
-  //     textColor: 'white',
-  //     icon: 'cloud_done',
-  //     message: 'Submitted'
-  //   })
-  // }
 }
 
 </script>
-  
