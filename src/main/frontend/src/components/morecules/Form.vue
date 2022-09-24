@@ -1,7 +1,7 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <div class="q-pa-md bg-grey-1" style="max-width: 400px">
 
-    <q-form @submit="onSubmit" class="q-gutter-md">
+    <q-form @submit="onSubmit" >
       <q-input standout="bg-teal text-white" v-model="title" label="title *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
@@ -18,7 +18,6 @@
 </template>
   
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import MyButton from "@/components/atoms/Button.vue"
 
@@ -32,7 +31,11 @@ const onSubmit = () => {
     title: title.value,
     author: author.value,
     detail: detail.value
-  });
+  })
 }
 
 </script>
+
+<style scoped>
+
+</style>
