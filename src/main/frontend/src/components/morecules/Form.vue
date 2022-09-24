@@ -20,10 +20,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MyButton from "@/components/atoms/Button.vue"
+// import { computed } from '@vue/reactivity';
 
 const title = ref(null)
 const author = ref(null)
 const detail = ref(null)
+
+// const props = defineProps({
+//   title: String ,
+//   author: String,
+//   detail: String,
+//   value: 
+// })
+
+// const title = computed(() => {
+//   get = () => props.title,
+//   set = () => {
+//     emit('update', title)
+//   }
+// })
 
 const emit = defineEmits(['submit'])
 const onSubmit = () => {
@@ -35,7 +50,3 @@ const onSubmit = () => {
 }
 
 </script>
-
-<style scoped>
-
-</style>
