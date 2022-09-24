@@ -26,8 +26,10 @@ import { useQuasar } from 'quasar'
 import { onMounted, reactive } from "vue";
 import MyButton from "../atoms/Button.vue"
 import BookApiService from "@/service/BookApiService";
+import { useRouter } from 'vue-router'
 
 const $q = useQuasar()
+const router = useRouter()
 
 const state = reactive({
   books: [{
@@ -45,7 +47,7 @@ onMounted(() => {
 })
 
 const editBook = (id: string) => {
-  console.log("eidt")
+  router.push(`books/edit/${id}`)
 }
 
 const deleteBook = (id: string) => {

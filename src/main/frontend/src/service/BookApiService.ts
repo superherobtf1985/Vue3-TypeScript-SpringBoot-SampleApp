@@ -5,16 +5,16 @@ class BookApiService {
     return http.get("/api/books");
   }
 
-  get(id: any): Promise<any> {
+  get(id: string): Promise<any> {
     return http.get(`/api/books/${id}`);
   }
 
-  create(data: any): Promise<any> {
-    return http.post("/api/books", data);
+  create(book: any): Promise<any> {
+    return http.post("/api/books", book);
   }
 
-  update(id: any, data: any): Promise<any> {
-    return http.put(`/api/books/${id}`, data);
+  update(book: any): Promise<any> {
+    return http.put(`/api/books/${book.id}`, book);
   }
 
   delete(id: any): Promise<any> {

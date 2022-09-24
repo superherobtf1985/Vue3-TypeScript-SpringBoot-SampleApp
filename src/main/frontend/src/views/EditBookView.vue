@@ -4,26 +4,38 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { ref } from "vue";
-import { useRouter } from 'vue-router'
+import { onMounted, ref } from "vue";
+import { useRouter, useRoute } from 'vue-router'
 
 import BookApiService from "@/service/BookApiService";
 import Form from "../components/morecules/Form.vue";
-import type Book from '@/interface/book';
+import type Book from "@/interface/book"
 
 const $q = useQuasar()
 const router = useRouter()
+const route = useRoute()
 
 const title = ref(null)
 const author = ref(null)
 const detail = ref(null)
 
+onMounted(() => {
+    if (route.params.id) {
+        BookApiService.get(route.params.id)
+        .then(res => {
+            title.value = res.data.title
+            author.value = res.data.author
+            detail.value = res.data.detail
+        })
+    }
+})
+
 const onSubmit = (book: Book) => {
-  BookApiService.create(book).then(res => {
+  BookApiService.update(book).then(res => {
     if (res.data) {
       $q.notify({
         type: 'positive',
-        message: '登録しました'
+        message: '更新しました'
       })
       router.push('/books')
     }
