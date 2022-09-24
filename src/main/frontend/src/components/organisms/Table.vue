@@ -56,6 +56,8 @@ const deleteBook = (id: string) => {
         type: 'positive',
         message: '削除しました'
       })
+
+      state.books = state.books.filter(book => book.id !== id)
     } else {
       $q.notify({
         type: 'negative',
