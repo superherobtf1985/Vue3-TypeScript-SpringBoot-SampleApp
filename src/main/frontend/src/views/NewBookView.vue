@@ -1,5 +1,10 @@
 <template>
-    <Form @submit="onSubmit" />
+    <Form @submit="onSubmit"
+          :id="id"
+          v-model:title="title"
+          v-model:author="author"
+          v-model:detail="detail" 
+    />
 </template>
 
 <script setup lang="ts">
@@ -14,9 +19,10 @@ import type Book from '@/interface/book';
 const $q = useQuasar()
 const router = useRouter()
 
-const title = ref(null)
-const author = ref(null)
-const detail = ref(null)
+const id = ref("")
+const title = ref("")
+const author = ref("")
+const detail = ref("")
 
 const onSubmit = (book: Book) => {
   BookApiService.create(book).then(res => {
