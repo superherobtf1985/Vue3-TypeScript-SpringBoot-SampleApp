@@ -1,5 +1,10 @@
 <template>
-    <Form @submit="onSubmit" />
+    <Form @submit="onSubmit"
+          :id="id"
+          v-model:title="title"
+          v-model:author="author"
+          v-model:detail="detail" 
+    />
 </template>
 
 <script setup lang="ts">
@@ -15,29 +20,34 @@ const $q = useQuasar()
 const router = useRouter()
 const route = useRoute()
 
-const title = ref(null)
-const author = ref(null)
-const detail = ref(null)
+const id: string = route.params.id
+const title = ref('')
+const author = ref('')
+const detail = ref('')
 
 onMounted(() => {
-    if (route.params.id) {
-        BookApiService.get(route.params.id)
-        .then(res => {
-            title.value = res.data.title
-            author.value = res.data.author
-            detail.value = res.data.detail
-        })
-    }
+  BookApiService.get(id)
+  .then(res => {
+      title.value = res.data.title
+      author.value = res.data.author
+      detail.value = res.data.detail
+  }).catch(err => {
+    $q.notify({
+      type: 'negative',
+      message: 'エラーが発生しました'
+    })
+  })
 })
 
 const onSubmit = (book: Book) => {
-  BookApiService.update(book).then(res => {
+  BookApiService.update(book)
+  .then(res => {
     if (res.data) {
       $q.notify({
         type: 'positive',
         message: '更新しました'
       })
-      router.push('/books')
+      router.push(`/books`)
     }
   }).catch(err => {
     $q.notify({

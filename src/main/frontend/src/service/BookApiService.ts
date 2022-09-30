@@ -14,7 +14,7 @@ class BookApiService {
   }
 
   update(book: any): Promise<any> {
-    return http.put(`/api/books/${book.id}`, book);
+    return http.put(`/api/books`, book);
   }
 
   delete(id: any): Promise<any> {

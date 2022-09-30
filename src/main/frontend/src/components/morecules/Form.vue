@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md bg-grey-1" style="max-width: 400px">
-
     <q-form @submit="onSubmit" >
       <q-input standout="bg-teal text-white" v-model="title" label="title *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
@@ -18,34 +17,26 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue'
 import MyButton from "@/components/atoms/Button.vue"
-// import { computed } from '@vue/reactivity';
+import type book from "@/interface/book"
 
-const title = ref(null)
-const author = ref(null)
-const detail = ref(null)
+const props = defineProps<{
+  id: string
+  title: string
+  author: string
+  detail: string
+}>()
 
-// const props = defineProps({
-//   title: String ,
-//   author: String,
-//   detail: String,
-//   value: 
-// })
+const emits = defineEmits<{
+  (e: 'submit', book: book): void
+}>()
 
-// const title = computed(() => {
-//   get = () => props.title,
-//   set = () => {
-//     emit('update', title)
-//   }
-// })
-
-const emit = defineEmits(['submit'])
 const onSubmit = () => {
-  emit("submit", {
-    title: title.value,
-    author: author.value,
-    detail: detail.value
+  emits("submit", {
+    id: props.id,
+    title: props.title,
+    author: props.author,
+    detail: props.detail
   })
 }
 
