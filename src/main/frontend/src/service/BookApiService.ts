@@ -1,4 +1,5 @@
 import http from "@/common/http-common";
+import type book from "@/interface/book"
 
 class BookApiService {
   getAll(): Promise<any> {
@@ -9,15 +10,15 @@ class BookApiService {
     return http.get(`/api/books/${id}`);
   }
 
-  create(book: any): Promise<any> {
+  create(book: book): Promise<any> {
     return http.post("/api/books", book);
   }
 
-  update(book: any): Promise<any> {
+  update(book: book): Promise<any> {
     return http.put(`/api/books`, book);
   }
 
-  delete(id: any): Promise<any> {
+  delete(id: string): Promise<any> {
     return http.delete(`/api/books/${id}`);
   }
 }
