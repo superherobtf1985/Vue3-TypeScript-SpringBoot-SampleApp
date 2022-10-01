@@ -33,7 +33,7 @@
 import MyButton from "@/components/atoms/Button.vue"
 
 const props = defineProps<{
-  rows: any[],
+  rows: {id: string}[],
   columns: object
 }>()
 
