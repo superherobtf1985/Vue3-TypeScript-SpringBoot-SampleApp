@@ -13,8 +13,12 @@
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>
           <td>{{ book.detail }}</td>
-          <td><MyButton label="変更" color="secondary" @click="editBook(book.id)" /></td>
-          <td><MyButton label="削除" color="deep-orange" @click="deleteBook(book.id)" /></td>
+          <td>
+            <MyButton label="変更" color="secondary" @click="editBook(book.id)" />
+          </td>
+          <td>
+            <MyButton label="削除" color="deep-orange" @click="deleteBook(book.id)" />
+          </td>
         </tr>
       </tbody>
     </q-markup-table>
@@ -24,9 +28,11 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { onMounted, reactive } from "vue";
-import MyButton from "../atoms/Button.vue"
-import BookApiService from "@/service/BookApiService";
 import { useRouter } from 'vue-router'
+
+import BookApiService from "@/service/BookApiService";
+import QuasarMsgService from '@/service/QuasarMsgService';
+import MyButton from "../atoms/Button.vue"
 
 const $q = useQuasar()
 const router = useRouter()
@@ -52,21 +58,14 @@ const editBook = (id: string) => {
 
 const deleteBook = (id: string) => {
   BookApiService.delete(id)
-  .then(isDeleted => {
-    if (isDeleted) {
-      $q.notify({
-        type: 'positive',
-        message: '削除しました'
-      })
-
-      state.books = state.books.filter(book => book.id !== id)
-    } else {
-      $q.notify({
-        type: 'negative',
-        message: 'エラーが発生しました'
-      })
-    }
-  })
+    .then(isDeleted => {
+      if (isDeleted) {
+        QuasarMsgService.delete($q)
+        state.books = state.books.filter(book => book.id !== id)
+      } else {
+        QuasarMsgService.error($q)
+      }
+    })
 }
 
 </script>

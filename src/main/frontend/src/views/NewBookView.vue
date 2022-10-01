@@ -13,6 +13,7 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router'
 
 import BookApiService from "@/service/BookApiService";
+import QuasarMsgService from '@/service/QuasarMsgService';
 import Form from "../components/morecules/Form.vue";
 import type Book from '@/interface/book';
 
@@ -27,17 +28,11 @@ const detail = ref("")
 const onSubmit = (book: Book) => {
   BookApiService.create(book).then(res => {
     if (res.data) {
-      $q.notify({
-        type: 'positive',
-        message: '登録しました'
-      })
+      QuasarMsgService.create($q)
       router.push('/books')
     }
   }).catch(err => {
-    $q.notify({
-      type: 'negative',
-      message: 'エラーが発生しました'
-    })
+    QuasarMsgService.error($q)
   })
 }
 </script>
