@@ -10,7 +10,13 @@
       <q-input standout="bg-teal text-white" v-model="detail" label="detail *" lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']" />
 
-      <div><MyButton type="submit" label="変更" /></div>
+      <div>
+        <MyButton type="submit">
+          <template v-slot:label>
+            <slot name="label" />
+          </template>
+        </MyButton>
+      </div>
     </q-form>
 
   </div>

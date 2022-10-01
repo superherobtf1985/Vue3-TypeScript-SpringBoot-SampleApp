@@ -2,9 +2,10 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn :color=color
            :textColor=textColor
-           :label=label 
            :type=type 
-           @click="onClick"/>
+           @click="onClick">
+      <slot name="label">変更</slot>
+    </q-btn>
   </div>
 </template>
 
@@ -16,10 +17,6 @@ export default {
 
 <script setup lang="ts">
 const props = defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
   color: {
     type: String,
     default: "primary",

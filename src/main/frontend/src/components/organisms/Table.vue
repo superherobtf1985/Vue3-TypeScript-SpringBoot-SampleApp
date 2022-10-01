@@ -14,10 +14,14 @@
           <td>{{ book.author }}</td>
           <td>{{ book.detail }}</td>
           <td>
-            <MyButton label="変更" color="secondary" @click="editBook(book.id)" />
+            <MyButton color="secondary" @click="editBook(book.id)">
+              <template v-slot:label>変更</template>
+            </MyButton>
           </td>
           <td>
-            <MyButton label="削除" color="deep-orange" @click="deleteBook(book.id)" />
+            <MyButton color="deep-orange" @click="deleteBook(book.id)">
+              <template v-slot:label>削除</template>
+            </MyButton>
           </td>
         </tr>
       </tbody>

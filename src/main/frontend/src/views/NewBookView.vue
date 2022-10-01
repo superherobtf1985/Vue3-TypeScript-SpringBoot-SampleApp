@@ -4,7 +4,7 @@
           v-model:title="title"
           v-model:author="author"
           v-model:detail="detail" 
-    />
+    ><template v-slot:label>登録</template></Form>
 </template>
 
 <script setup lang="ts">
