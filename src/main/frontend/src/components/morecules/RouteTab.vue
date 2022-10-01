@@ -7,7 +7,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-// TODO データ部は切り出す
 const routes = reactive([
     { to: "/books", label: "書籍一覧" },
     { to: "/new", label: "新規追加" },

@@ -2,24 +2,24 @@
   <div class="q-pa-md">
     <q-markup-table>
       <thead class="bg-teal">
-        <th class="text-left">タイトル</th>
-        <th class="text-left">著者</th>
-        <th class="text-left">詳細</th>
+        <template v-for="col in columns" :key="col.id">
+          <th class="text-left">{{ col }}</th>
+        </template>
         <th></th>
         <th></th>
       </thead>
-      <tbody v-for="book in state.books" :key="book.id">
+      <tbody v-for="row in rows" :key="row.id">
         <tr>
-          <td>{{ book.title }}</td>
-          <td>{{ book.author }}</td>
-          <td>{{ book.detail }}</td>
+          <template v-for="(v, key) in columns" :key="v.id">
+            <td>{{ row[key] }}</td>
+          </template>
           <td>
-            <MyButton color="secondary" @click="editBook(book.id)">
+            <MyButton color="secondary" @click="onEdit(row.id)">
               <template v-slot:label>変更</template>
             </MyButton>
           </td>
           <td>
-            <MyButton color="deep-orange" @click="deleteBook(book.id)">
+            <MyButton color="deep-orange" @click="onDelete(row.id)">
               <template v-slot:label>削除</template>
             </MyButton>
           </td>
@@ -30,46 +30,23 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
-import { onMounted, reactive } from "vue";
-import { useRouter } from 'vue-router'
+import MyButton from "@/components/atoms/Button.vue"
 
-import BookApiService from "@/service/BookApiService";
-import QuasarMsgService from '@/service/QuasarMsgService';
-import MyButton from "../atoms/Button.vue"
+const props = defineProps<{
+  rows: any[],
+  columns: object
+}>()
 
-const $q = useQuasar()
-const router = useRouter()
+const emits = defineEmits<{
+  (e: 'onEdit', id: string): void
+  (e: 'onDelete', id: string): void
+}>()
 
-const state = reactive({
-  books: [{
-    id: "",
-    title: "",
-    author: "",
-    detail: ""
-  }]
-})
-
-onMounted(() => {
-  BookApiService.getAll().then(res => {
-    state.books = res.data
-  })
-})
-
-const editBook = (id: string) => {
-  router.push(`books/edit/${id}`)
+const onEdit = (id: string) => {
+  emits("onEdit", id)
 }
-
-const deleteBook = (id: string) => {
-  BookApiService.delete(id)
-    .then(isDeleted => {
-      if (isDeleted) {
-        QuasarMsgService.delete($q)
-        state.books = state.books.filter(book => book.id !== id)
-      } else {
-        QuasarMsgService.error($q)
-      }
-    })
+const onDelete = (id: string) => {
+  emits("onDelete", id)
 }
 
 </script>
